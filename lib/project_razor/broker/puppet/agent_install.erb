@@ -4,7 +4,7 @@ set -u
 set -e
 
 function install_puppet() {
-    apt-get install puppet<%= "=#{@options[:version]}-1puppetlabs1" if @options[:version] && !@options[:version].empty? %>
+    apt-get install puppet<%= "=#{@options[:version]}-1puppetlabs1" if @options[:version] && !@options[:version].empty? %> -y
     # gem install puppet --no-ri --no-rdoc <%= "--version #{@options[:version]}" if @options[:version] && !@options[:version].empty? %>
     puppet master --mkusers
 }
