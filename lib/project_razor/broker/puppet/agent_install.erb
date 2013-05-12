@@ -19,7 +19,7 @@ vardir = /var/lib/puppet
 ssldir = /var/lib/puppet/ssl
 pluginsync = true
 report = true
-environment = develop
+environment = production
 <%= "ca_server = #{@options[:ca_server]}" if @options[:ca_server] && !@options[:ca_server].empty? %>
 <%= "server = #{@options[:server]}" if @options[:server] && !@options[:server].empty? %>
 certname = <%= @options[:puppetagent_certname] %>
