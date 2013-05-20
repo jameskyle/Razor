@@ -44,7 +44,13 @@ d-i partman-auto/expert_recipe string                   \
             method{ swap }                              \
             format{ }                                   \
          .                                              \
-         230000 40 256000 ext4                            \
+        40 50 100 ext4                                  \
+                $primary{ } $bootable{ }                \
+                method{ format } format{ }              \
+                use_filesystem{ } filesystem{ ext3 }    \
+                mountpoint{ /boot }                     \
+        .                                               \
+         230000 40 256000 ext4                          \
             $defaultignore{ }                           \
             $lvmok{ }                                   \
             lv_name{ lv_root }                          \
@@ -53,7 +59,7 @@ d-i partman-auto/expert_recipe string                   \
             use_filesystem{ }                           \
             filesystem{ ext4 }                          \
             mountpoint{ / }                             \
-         .                                              \
+         .    
 
 # LVM END
 d-i passwd/root-login boolean true
