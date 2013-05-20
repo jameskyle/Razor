@@ -12,12 +12,15 @@ d-i mirror/http/proxy string
 d-i clock-setup/utc boolean true
 d-i time/zone string UTC
 d-i clock-setup/ntp boolean true
+# LVM BEGIN Configuration
 d-i partman-auto/disk string /dev/sda
 d-i partman-auto/method string lvm
 d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-auto-lvm/guided_size string max
-d-i partman-auto/choose_recipe select atomic
+#d-i partman-auto/choose_recipe select atomic
+d-i partman-auto-lvm/new_vg_name string vg_main
+d-i partman-auto/choose_recipe select boot-root
 d-i partman-auto/purge_lvm_from_device boolean true
 d-i partman/default_filesystem string ext4
 d-i partman-auto/init_automatically_partition select biggest_free
@@ -28,6 +31,31 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 d-i partman-md/confirm boolean true
+d-i partman-auto/expert_recipe string                   \
+    boot-root ::                                        \
+        1 1 1 free                                      \
+          $iflabel{ gpt }                               \
+          method{ biosgrub }                            \
+        .                                               \
+        51200 30 51200 swap                             \
+            $defaultignore{ }                           \
+            $lvmok{ }                                   \
+            lv_name{ lv_swap }                          \
+            method{ swap }                              \
+            format{ }                                   \
+         .                                              \
+         230000 40 256000 ext4                            \
+            $defaultignore{ }                           \
+            $lvmok{ }                                   \
+            lv_name{ lv_root }                          \
+            method{ format }                            \
+            format{ }                                   \
+            use_filesystem{ }                           \
+            filesystem{ ext4 }                          \
+            mountpoint{ / }                             \
+         .                                              \
+
+# LVM END
 d-i passwd/root-login boolean true
 d-i passwd/make-user boolean true
 d-i passwd/root-password password <%= @root_password %>
