@@ -4,6 +4,11 @@ set -u
 set -e
 
 function install_puppet() {
+    # add the puppetlabs repositories before installing packages
+    wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
+    dpkg -i puppetlabs-release-precise.deb
+    apt-get update -y
+
     apt-get install puppet<%= "=#{@options[:version]}-1puppetlabs1" if @options[:version] && !@options[:version].empty? %> -y
     # gem install puppet --no-ri --no-rdoc <%= "--version #{@options[:version]}" if @options[:version] && !@options[:version].empty? %>
     #puppet master --mkusers
