@@ -13,6 +13,8 @@ d-i mirror/http/proxy string
 d-i clock-setup/utc boolean true
 d-i time/zone string UTC
 d-i clock-setup/ntp boolean true
+# Kernel Select
+d-i base-installer/kernel/override-image string linux-generic-lts-quantal
 # PKGSel config
 d-i pkgsel/update-policy select unattended-upgrades
 d-i pkgsel/include string curl openssh-server
