@@ -39,22 +39,24 @@ apt-get install parted -y
 
 ### Partition and setup filesystem;
 
-parted /dev/sdb --script -- mklabel gpt
-parted /dev/sdb -a optimal --script -- mkpart primary ext4 1% 66%
-parted /dev/sdb -a optimal --script -- mkpart primary ext4 66% 100%
-mkfs.ext4 /dev/sdb1
-mkfs.ext4 /dev/sdb2
-
-mkdir -p /var2
-mount /dev/sdb1 /var2
-rsync -avz /var/ /var2/
-umount /var2 
-rmdir /var2
-
-mount /dev/sdb1 /var
-
-grep "sdb1" /etc/fstab > /dev/null
-if [ $? == 1 ]; then
-  echo "/dev/sdb1 /var  ext4  defaults  0 2" >> /etc/fstab
+if [ -e /dev/sdb ];then
+  parted /dev/sdb --script -- mklabel gpt
+  parted /dev/sdb -a optimal --script -- mkpart primary ext4 1% 66%
+  parted /dev/sdb -a optimal --script -- mkpart primary ext4 66% 100%
+  mkfs.ext4 /dev/sdb1
+  mkfs.ext4 /dev/sdb2
+  
+  mkdir -p /var2
+  mount /dev/sdb1 /var2
+  rsync -avz /var/ /var2/
+  umount /var2 
+  rmdir /var2
+  
+  mount /dev/sdb1 /var
+  
+  grep "sdb1" /etc/fstab > /dev/null
+  if [ $? == 1 ]; then
+    echo "/dev/sdb1 /var  ext4  defaults  0 2" >> /etc/fstab
+  fi
 fi
 
