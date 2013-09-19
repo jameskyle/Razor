@@ -48,6 +48,8 @@ mkfs.ext4 /dev/sdb2
 mkdir -p /var2
 mount /dev/sdb1 /var2
 rsync -avz /var/ /var2/
+umount /var2 
+rmdir /var2
 
 mount /dev/sdb1 /var
 

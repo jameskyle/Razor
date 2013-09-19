@@ -4,6 +4,7 @@ d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname string <%= hostname %>
 d-i netcfg/get_domain string razorlab.local
 d-i netcfg/no_default_route boolean true
+# Mirror Settings
 d-i mirror/protocol string http
 d-i mirror/country string manual
 d-i mirror/http/hostname string <%= config.image_svc_host %>:<%= config.image_svc_port %>
@@ -12,13 +13,15 @@ d-i mirror/http/proxy string
 d-i clock-setup/utc boolean true
 d-i time/zone string UTC
 d-i clock-setup/ntp boolean true
+# PKGSel config
+d-i pkgsel/update-policy select unattended-upgrades
+d-i pkgsel/include string curl openssh-server
 # LVM BEGIN Configuration
 d-i partman-auto/disk string /dev/sda
 d-i partman-auto/method string lvm
 d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-auto-lvm/guided_size string max
-#d-i partman-auto/choose_recipe select atomic
 d-i partman-auto-lvm/new_vg_name string vg_main
 d-i partman-auto/choose_recipe select boot-root
 d-i partman-auto/purge_lvm_from_device boolean true
@@ -72,7 +75,6 @@ d-i passwd/user-password password insecure
 d-i passwd/user-password-again password insecure
 d-i user-setup/allow-password-weak boolean true
 d-i apt-setup/restricted boolean true
-d-i pkgsel/include string curl openssh-server
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
 d-i finish-install/reboot_in_progress note
