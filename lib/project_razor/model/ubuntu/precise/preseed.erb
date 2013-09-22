@@ -6,9 +6,9 @@ d-i netcfg/get_domain string razorlab.local
 d-i netcfg/no_default_route boolean true
 
 # Mirror Settings
+d-i mirror/suite string precise
 d-i mirror/protocol string http
-d-i mirror/http/hostname    string mirror.anl.gov
-d-i mirror/http/directory   string /pub/ubuntu
+d-i mirror/http/directory   string /ubuntu
 d-i mirror/http/proxy       string http://<%= config.image_svc_host %>:3142
 
 d-i clock-setup/utc boolean true
